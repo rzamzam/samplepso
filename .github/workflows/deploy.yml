@@ -5,10 +5,10 @@ on:
     branches: [ "master" ]
 
 env:
-  AWS_REGION: MY_AWS_REGION                  # Set your preferred AWS region, e.g., us-west-1
-  EC2_PUBLIC_IP: MY_EC2_PUBLIC_IP            # Set this to the public IP of your EC2 instance
+  AWS_REGION: ap-southeast-1                  # Set your preferred AWS region, e.g., us-west-1
+  EC2_PUBLIC_IP: 13.229.209.76                # Set this to the public IP of your EC2 instance
   EC2_USERNAME: ec2-user                     # Replace with the username for your EC2 instance, e.g., ubuntu for Ubuntu AMIs
-  KEY_NAME: MY_KEY_NAME                      # The name of your private key file (without the .pem extension)
+  KEY_NAME: sample-pso                       # The name of your private key file (without the .pem extension)
 
 permissions:
   contents: read
