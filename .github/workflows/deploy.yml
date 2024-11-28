@@ -7,8 +7,8 @@ on:
 env:
   AWS_REGION: ap-southeast-1                  # Set your preferred AWS region, e.g., us-west-1
   EC2_PUBLIC_IP: 13.229.209.76                # Set this to the public IP of your EC2 instance
-  EC2_USERNAME: ec2-user                     # Replace with the username for your EC2 instance, e.g., ubuntu for Ubuntu AMIs
-  KEY_NAME: sample-pso                       # The name of your private key file (without the .pem extension)
+  EC2_USERNAME: ec2-user                      # Replace with the username for your EC2 instance, e.g., ubuntu for Ubuntu AMIs
+  KEY_NAME: sample-pso                        # The name of your private key file (without the .pem extension)
 
 permissions:
   contents: read
@@ -29,12 +29,6 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
 
-    - name: Decode PEM file
-      run: echo "${{ secrets.AWS_PEM_KEY }}" | base64 -d > ~/.ssh/aws-key.pem
-
-    - name: Set permissions for PEM file
-      run: chmod 400 ~/.ssh/aws-key.pem
-
     - name: Build Docker image
       id: build-image
       run: |
@@ -43,6 +37,14 @@ jobs:
         IMAGE_TAG=${{ github.sha }}
         docker build -t my-app:$IMAGE_TAG .
         echo "image=my-app:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+    - name: Decode PEM file
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.AWS_PEM_KEY }}" | base64 -d > ~/.ssh/aws-key.pem
+
+    - name: Set permissions for PEM file
+      run: chmod 400 ~/.ssh/aws-key.pem
 
     - name: Transfer Docker image to EC2
       run: |
