@@ -1,0 +1,63 @@
+name: Deploy to Amazon EC2
+
+on:
+  push:
+    branches: [ "master" ]
+
+env:
+  AWS_REGION: MY_AWS_REGION                  # Set your preferred AWS region, e.g., us-west-1
+  EC2_PUBLIC_IP: MY_EC2_PUBLIC_IP            # Set this to the public IP of your EC2 instance
+  EC2_USERNAME: ec2-user                     # Replace with the username for your EC2 instance, e.g., ubuntu for Ubuntu AMIs
+  KEY_NAME: MY_KEY_NAME                      # The name of your private key file (without the .pem extension)
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Build Docker image
+      id: build-image
+      run: |
+        # Build the Docker image and tag it using the GitHub commit SHA
+        # The image will be tagged as 'my-app:<commit-sha>'
+        IMAGE_TAG=${{ github.sha }}
+        docker build -t my-app:$IMAGE_TAG .
+        echo "image=my-app:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+    - name: Transfer Docker image to EC2
+      run: |
+        # Save the Docker image as a tarball and transfer it to the EC2 instance
+        # Update 'KEY_NAME' with the name of your private key file (excluding .pem)
+        # Replace 'EC2_PUBLIC_IP' with the public IP address of your EC2 instance
+        IMAGE_TAG=${{ github.sha }}
+        docker save my-app:$IMAGE_TAG > my-app.tar
+        scp -o StrictHostKeyChecking=no -i ~/.ssh/${{ env.KEY_NAME }}.pem my-app.tar ${{ env.EC2_USERNAME }}@${{ env.EC2_PUBLIC_IP }}:/home/${{ env.EC2_USERNAME }}
+
+    - name: Deploy Docker container on EC2
+      run: |
+        # SSH into the EC2 instance and deploy the Docker container
+        # The following steps are performed on the EC2 instance:
+        # 1. Load the transferred Docker image
+        # 2. Stop and remove the existing container (if any)
+        # 3. Run the new container with the updated image
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ env.KEY_NAME }}.pem ${{ env.EC2_USERNAME }}@${{ env.EC2_PUBLIC_IP }} << 'EOF'
+        IMAGE_TAG=${{ github.sha }}
+        docker load < /home/${{ env.EC2_USERNAME }}/my-app.tar
+        docker stop my-app || true
+        docker rm my-app || true
+        docker run -d --name my-app -p 80:80 my-app:$IMAGE_TAG
+        EOF
