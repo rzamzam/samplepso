@@ -4,6 +4,12 @@ Project Overview
 Welcome to the 2048 Game CI/CD Implementation Project! This project focuses on automating the development, testing, and deployment process of the popular 2048 game using GitHub Actions for CI/CD and deploying it to AWS EC2 instances.
 Our aim is to integrate modern DevOps practices into a fun, lightweight web application while ensuring a smooth and reliable deployment pipeline. 
 
+## Team Members
+- Rizfandino Ramadhan (5026211051)
+- Rayhan Zamzam Fadila (5026211052)
+- Akhmad Nabiel Wicaksono (5026211196)
+
+
 ## Manual Guide
 Each time a developer push and pull from and to this repository to the main Master branch, GitHub Actions will run a virtual environment to make sure there are no collisions and error. If successful, a workflow for automated deployment are in place. This workflow will ssh into the aws server, create a docker image, and host. The IP Address to access the live site is http://13.229.209.76/.
 
@@ -26,10 +32,6 @@ This project demonstrates how CI/CD principles can be applied to a simple web-ba
    	Automate the build, test, and deployment pipeline directly from the GitHub repository.
 2. Deploy the 2048 Game to AWS EC2
    	Use AWS EC2 instances to host the game instead of the default GitHub Pages.
-3. Demonstrate DevOps Best Practices
-   - Automate infrastructure deployment and updates.
-   - Showcase modular, reusable workflows.
-4. Document and Share Provide clear instructions and documentation for easy replication and understanding of the project.
 
 ## Key Features of the Pipeline
 1. Build and Test Phase
