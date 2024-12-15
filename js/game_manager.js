@@ -284,8 +284,6 @@ GameManager.prototype.positionsEqual = function (first, second) {
 
 GameManager.prototype.startTimer = function () {
     this.startTime = Date.now();
-
-  
     this.timerInterval = setInterval(this.updateTimer.bind(this), 1000);
 };
 
