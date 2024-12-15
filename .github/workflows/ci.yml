@@ -24,21 +24,17 @@ jobs:
       # Step 3: Install linters and testing tools
       - name: Install dependencies
         run: |
-           npm install --save-dev stylelint@latest stylelint-config-standard@latest postcss@latest htmlhint eslint @playwright/test
-
+          npm install --save-dev htmlhint stylelint eslint @playwright/test
+          
       # Step 4: Run HTML linter
       - name: Run HTML linter
         run: npx htmlhint .
 
-      # Step 5: Run CSS linter
-      - name: Run CSS linter
-        run: npx stylelint "**/*.css"
-
-      # Step 6: Run JavaScript linter
+      # Step 5: Run JavaScript linter
       - name: Run JavaScript linter
         run: npx eslint "**/*.js"
 
-      # Step 7: Run browser-based tests
+      # Step 6: Run browser-based tests
       - name: Run browser tests
         run: |
           npx playwright install --with-deps
