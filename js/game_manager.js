@@ -58,6 +58,9 @@ GameManager.prototype.setup = function () {
   this.actuate();
   clearInterval(this.timerInterval);
   this.startTimer();
+
+  this.moveCount = 0;
+  this.updateMoveCounter();
 };
 
 // Set up the initial tiles to start the game with
@@ -190,6 +193,12 @@ GameManager.prototype.move = function (direction) {
 
     this.actuate();
   }
+  this.moveCount++;
+  this.updateMoveCounter();
+};
+
+GameManager.prototype.updateMoveCounter = function () {
+    document.getElementById('moveCounter').innerText = "Moves: " + this.moveCount;
 };
 
 // Get the vector representing the chosen direction
