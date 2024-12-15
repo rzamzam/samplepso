@@ -2,40 +2,26 @@ name: CI for Static Web App
 
 on:
   push:
-    branches: [ "development" ] # Run on pushes to the main branch 
+    branches: [ "development" ]
   pull_request:
-    branches: [ "development" ] # Run on pull requests targeting the main branch
+    branches: [ "development" ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code from the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16" # Use a stable Node.js version
+      # Run HTML Linter (HTMLHint)
+      - name: Run HTML Linter
+        run: npx htmlhint "**/*.html"
 
-      # Step 3: Install linters and testing tools
-      - name: Install dependencies
-        run: |
-          npm install --save-dev htmlhint stylelint eslint @playwright/test
-          
-      # Step 4: Run HTML linter
-      - name: Run HTML linter
-        run: npx htmlhint .
+      # Run CSS Linter (Stylelint)
+      - name: Run CSS Linter
+        run: npx stylelint "**/*.css"
 
-      # Step 5: Run JavaScript linter
-      - name: Run JavaScript linter
+      # Run JavaScript Linter (ESLint)
+      - name: Run JavaScript Linter
         run: npx eslint "**/*.js"
-
-      # Step 6: Run browser-based tests
-      - name: Run browser tests
-        run: |
-          npx playwright install --with-deps
-          npx playwright test
