@@ -24,7 +24,7 @@ jobs:
       # Step 3: Install linters and testing tools
       - name: Install dependencies
         run: |
-          npm install --save-dev htmlhint stylelint eslint @playwright/test
+          npm install --save-dev stylelint stylelint-config-standard htmlhint eslint @playwright/test
 
       # Step 4: Run HTML linter
       - name: Run HTML linter
