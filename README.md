@@ -6,7 +6,7 @@ Our aim is to integrate modern DevOps practices into a fun, lightweight web appl
 
 ## Team Members
 - Rizfandino Ramadhan (5026211051)
-- Rayhan Zamzam Fadila (5026211052)
+- Rayhan Zamzam Fadilla (5026211052)
 - Akhmad Nabiel Wicaksono (5026211196)
 
 
