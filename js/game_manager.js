@@ -281,3 +281,13 @@ GameManager.prototype.tileMatchesAvailable = function () {
 GameManager.prototype.positionsEqual = function (first, second) {
   return first.x === second.x && first.y === second.y;
 };
+
+GameManager.prototype.startTimer = function () {
+  this.startTime = Date.now();
+  this.timerInterval = setInterval(this.updateTimer.bind(this), 1000);
+};
+
+GameManager.prototype.updateTimer = function () {
+  const elapsedTime = Math.floor((Date.now() - this.startTime) / 1000);
+  document.getElementById('gameTimer').innerText = "Time: " + elapsedTime + "s";
+};
