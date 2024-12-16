@@ -284,10 +284,10 @@ GameManager.prototype.positionsEqual = function (first, second) {
 
 GameManager.prototype.startTimer = function () {
   this.startTime = Date.now();
-  this.timerInterval = setInterval(this.updateTimer.bind(this), 1000);
+  this.timerInterval = setInterval this.updateTimer.bind(this), 1000);
 };
 
-GameManager.prototype.updateTimer = function () {
+GameManager prototype.updateTimer = function ) {
   const elapsedTime = Math.floor((Date.now() - this.startTime) / 1000);
   document.getElementById('gameTimer').innerText = "Time: " + elapsedTime + "s";
 };
