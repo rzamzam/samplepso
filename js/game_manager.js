@@ -290,4 +290,4 @@ GameManager.prototype.startTimer = function () {
 GameManager prototype.updateTimer = function ) {
   const elapsedTime = Math.floor((Date.now() - this.startTime) / 1000);
   document.getElementById('gameTimer').innerText = "Time: " + elapsedTime + "s";
-};
+};;;;
