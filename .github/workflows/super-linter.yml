@@ -8,9 +8,13 @@ name: Lint Code Base
 
 on:
   push:
-    branches: [ "development" ]
+    # runs on every branch except master
+    branches-ignore:
+      - "master"
   pull_request:
-    branches: [ "development" ]
+    # runs on every branch except master
+    branches-ignore:
+      - "master"
 jobs:
   run-lint:
     runs-on: ubuntu-latest
