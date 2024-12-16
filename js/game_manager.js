@@ -89,6 +89,7 @@ GameManager.prototype.actuate = function () {
   // Clear the state when the game is over (game over only, not win)
   if (this.over) {
     this.storageManager.clearGameState();
+    clearInterval(this.timerInterval); // Stop the timer
   } else {
     this.storageManager.setGameState(this.serialize());
   }
@@ -288,6 +289,8 @@ GameManager.prototype.startTimer = function () {
 };
 
 GameManager.prototype.updateTimer = function () {
-  const elapsedTime = Math.floor((Date.now() - this.startTime) / 1000);
-  document.getElementById('gameTimer').innerText = "Time: " + elapsedTime + "s";
+  if (!this.over) { // Only update the timer if the game is not over
+        const elapsedTime = Math.floor((Date.now() - this.startTime) / 1000);
+        document.getElementById('gameTimer').innerText = "Time: " + elapsedTime + "s";
+    }
 };
