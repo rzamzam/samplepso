@@ -7,11 +7,11 @@ function Tile(position, value) {
   this.mergedFrom       = null; // Tracks tiles that merged together
 }
 
-Tile.prototype.savePosition = function () {
-  this.previousPosition = { x: this.x, y: this.y };
+Tile.prototype.savePosition =function () {
+  this.previousPosition={ x: this.x, y: this.y };
 };
 
-Tile.prototype.updatePosition = function (position) {
+Tile.prototype.updatePosition= function (position) {
   this.x = position.x;
   this.y = position.y;
 };
@@ -23,5 +23,8 @@ Tile.prototype.serialize = function () {
       y: this.y
     },
     value: this.value
+
+
+    
   };
 };
